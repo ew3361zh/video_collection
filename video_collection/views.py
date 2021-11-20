@@ -18,15 +18,14 @@ def add(request):
         if new_video_form.is_valid():
             try:
                 new_video_form.save()
-                # messages.info(request, 'New video saved!')
-                # todo show success message or redirect to list of videos
+                # messages.info(request, 'New video saved!') - removed because we're redirecting to another page now
                 return redirect('video_list')
-            except ValidationError:
+            except ValidationError: # url not matching the outline of a good youtube url
                 messages.warning(request, 'Invalid YouTube URL')
-            except IntegrityError:
+            except IntegrityError: # duplicate video added
                 messages.warning(request, 'Error: video was previously added to your database')    
 
-        messages.warning(request, 'Please check the info entered.')
+        messages.warning(request, 'Please check the info entered.') # essentially the else from the if new_video_form.is_valid
         return render(request, 'video_collection/add.html', {'new_video_form': new_video_form})
 
     new_video_form = VideoForm()

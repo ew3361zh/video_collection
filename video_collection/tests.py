@@ -77,6 +77,27 @@ class TestAddVideos(TestCase):
             video_count = Video.objects.count()
             self.assertEqual(0, video_count)
 
+class TestVideoDetail(TestCase):
+
+    def test_video_detail_page_shows_all_info(self):
+        # test adapted from wishlist test_place_detail
+        v1 = Video.objects.create(name='Blahblah', notes='qwerty1234', url='https://www.youtube.com/watch?v=1234')
+        response = self.client.get(reverse('video_detail', kwargs={'video_pk':1} ))
+        # Check correct template was used
+        self.assertTemplateUsed(response, 'video_collection/video_detail.html')
+
+        # What data was sent to the template?
+        data_rendered = response.context['video']
+
+        # Same as data sent to template?
+        self.assertEqual(data_rendered, v1)
+
+        # and correct data shown on page?
+    
+        self.assertContains(response, 'Blahblah') 
+        self.assertContains(response, 'qwerty1234')  
+        self.assertContains(response, 'https://www.youtube.com/watch?v=1234') 
+
 class TestVideoList(TestCase):
     
     def test_all_videos_displayed_in_correct_order(self):
