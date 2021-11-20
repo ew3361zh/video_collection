@@ -11,10 +11,10 @@ class Video(models.Model):
 
     def save(self, *args, **kwargs):
         # extract video id from youtube url
-        # if not self.url.startswith('https://www.youtube.com/watch'):
+        # if not self.url.startswith('https://www.youtube.com/watch'): ---- not specific enough, could still add urls that matched enough but were still not valid
         #     raise ValidationError(f'Non-YouTube URL {self.url}')
         url_components = parse.urlparse(self.url)
-
+        # break it down into the components of the URL and test those specifically
         if url_components.scheme != 'https':
             raise ValidationError(f'Non-YouTube URL {self.url}')
 
