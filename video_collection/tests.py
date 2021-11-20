@@ -97,6 +97,11 @@ class TestVideoDetail(TestCase):
         self.assertContains(response, 'Blahblah') 
         self.assertContains(response, 'qwerty1234')  
         self.assertContains(response, 'https://www.youtube.com/watch?v=1234') 
+    
+    def test_get_details_of_video_if_not_exists_returns_404(self):
+        
+        response = self.client.get(reverse('video_detail', kwargs={'video_pk':100000} ))
+        self.assertEqual(404, response.status_code)
 
 class TestVideoList(TestCase):
     
